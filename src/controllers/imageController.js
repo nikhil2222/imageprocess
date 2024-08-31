@@ -13,6 +13,7 @@ exports.uploadCsv = async (req, res) => {
 
   try {
     const request = await Request.create();
+    res.status(200).json({ requestId: request.id });
     const records = await parseCsv(file.path);
     console.log(request, records);
     const processingPromises = records.map(async (record) => {
@@ -48,7 +49,7 @@ exports.uploadCsv = async (req, res) => {
     request.status = 'completed';
     await request.save();
 
-    res.status(200).json({ requestId: request.id });
+   
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
